@@ -1,0 +1,19 @@
+on:
+  rss:
+    url: https://dev.to/feed/this-is-angular
+
+jobs:
+  Tweet:
+    name: Tweet
+    runs-on: ubuntu-latest
+    steps:
+          
+      - name: Print Outputs
+        env:
+          title: ${{on.rss.outputs.title}}
+          link: ${{on.rss.outputs.link}}
+          guid: ${{on.rss.outputs.guid}}
+        run: |
+          echo title: $title
+          echo link: $link
+          echo guid: $guid
