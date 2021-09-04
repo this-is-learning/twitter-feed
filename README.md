@@ -3,6 +3,7 @@
 This is a workflow repository powered by
 [Actionsflow](https://github.com/actionsflow/actionsflow), generated from
 [actionsflow/actionsflow-workflow-default](https://github.com/actionsflow/actionsflow-workflow-default).
+
 The purpose of this repository is pull in new posts from [This is
 Learning](https://dev.to/this-is-learning/) and [This is
 Angular](https://dev.to/this-is-angular) on dev.to and post them on Twitter on
@@ -11,8 +12,8 @@ Angular](https://twitter.com/Thisis_Angular) twitter accounts.
 
 # Roadmap
 
-- [ ] Post to This is Learning on Twitter - using separate tokens
-- [ ] Post to This is Angular on Twitter - using separate tokens
+- [ ] Post to [This is Learning](https://twitter.com/Thisis_Learning) on Twitter - using separate tokens
+- [ ] Post to [This is Angular](https://twitter.com/Thisis_Angular) on Twitter - using separate tokens
 
 # 🎓 Learn More
 
