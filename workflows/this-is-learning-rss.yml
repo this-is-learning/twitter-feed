@@ -11,8 +11,14 @@ jobs:
       - name: categories to tags
         uses: actions/github-script@v4
         id: categories-to-tag
+        env:
+          categories: on.rss.outputs.category
         with:
-          script: return on.rss.outputs.category.map(t => `#${t}`).join(" ")
+          script: |
+            if(!process.env?.categories) {
+              return ""
+            }
+            return process.env.categories.map(t => `#${t}`).join(" ")
           result-encoding: string
       - name: Debug and Echo Results
         run: echo "${{steps.categories-to-tag.outputs.result}}" 
