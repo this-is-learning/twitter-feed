@@ -20,7 +20,7 @@ jobs:
             }
             console.log(process.env?.categories);
             console.log(typeof process.env?.categories);
-            return process.env.categories.map(t => `#${t}`).join(" ");
+            return JSON.parse(process.env.categories).map(t => `#${t}`).join(" ");
           result-encoding: string
       - name: Debug and Echo Results
         run: echo "${{steps.categories-to-tag.outputs.result}}" 
