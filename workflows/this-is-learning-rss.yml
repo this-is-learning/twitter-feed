@@ -1,7 +1,7 @@
 on:
   rss:
     # url: https://dev.to/feed/this-is-learning
-    url: https://dev.to/feed/tag/javascript
+    url: https://dev.to/feed/tag/angular
 
 jobs:
   Tweet:
