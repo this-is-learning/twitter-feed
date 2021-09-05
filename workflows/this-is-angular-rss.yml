@@ -11,13 +11,13 @@ jobs:
         uses: actions/github-script@v4
         id: categories-to-tag
         env:
-          categories: on.rss.outputs.category
+          categories: ${{ on.rss.outputs.categories }}
         with:
           script: |
             if(!process.env?.categories) {
-              return ""
+              return "";
             }
-            return process.env.categories.map(t => `#${t}`).join(" ")
+            return process.env.categories.split(",").map(t => `#${t}`).join(" ");
           result-encoding: string
       - name: Debug and Echo Results
         run: echo "${{steps.categories-to-tag.outputs.result}}"
@@ -25,8 +25,7 @@ jobs:
         uses: ethomson/send-tweet-action@v1
         with:
           status: |            
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }}
-            ${{steps.categories-to-tag.outputs.result}}
+            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} ${{steps.categories-to-tag.outputs.result}}
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
