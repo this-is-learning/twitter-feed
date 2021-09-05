@@ -7,11 +7,20 @@ jobs:
     name: Tweet
     runs-on: ubuntu-latest
     steps:
+      - name: categories to tags
+        uses: actions/github-script@v4
+        id: categories-to-tag
+        with:
+          script: return on.rss.outputs.category.map(t => `#${t}`).join(" ")
+          result-encoding: string
+      - name: Debug and Echo Results
+        run: echo "${{steps.categories-to-tag.outputs.result}}" 
       - name: Post to This is Learning
         uses: ethomson/send-tweet-action@v1
         with:
           status: |
             "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }}
+            ${{steps.categories-to-tag.outputs.result}}
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIL_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIL_TWITTER_CONSUMER_SECRET }}
