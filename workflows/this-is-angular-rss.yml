@@ -19,8 +19,6 @@ jobs:
             }
             return process.env.categories.split(",").map(t => `#${t}`).join(" ");
           result-encoding: string
-      - name: Debug and Echo Results
-        run: echo "${{steps.categories-to-tag.outputs.result}}"
       - name: Post To This is Angular
         uses: ethomson/send-tweet-action@v1
         with:

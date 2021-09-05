@@ -19,9 +19,7 @@ jobs:
               return "";
             }
             return process.env.categories.split(",").map(t => `#${t}`).join(" ");
-          result-encoding: string
-      - name: Debug and Echo Results
-        run: echo "${{steps.categories-to-tag.outputs.result}}" 
+          result-encoding: string 
       - name: Post to This is Learning
         uses: ethomson/send-tweet-action@v1
         with:
