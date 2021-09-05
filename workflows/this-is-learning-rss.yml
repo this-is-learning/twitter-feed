@@ -1,7 +1,6 @@
 on:
   rss:
-    # url: https://dev.to/feed/this-is-learning
-    url: https://dev.to/feed
+    url: https://dev.to/feed/this-is-learning
 
 jobs:
   Tweet:
