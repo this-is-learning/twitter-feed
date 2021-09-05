@@ -12,7 +12,6 @@ jobs:
         with:
           status: |            
             "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} 
-            #${{ join(on.rss.outputs.category, ' #') }}
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}

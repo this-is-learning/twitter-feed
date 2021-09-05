@@ -12,8 +12,7 @@ jobs:
         uses: ethomson/send-tweet-action@v1
         with:
           status: |
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} 
-            #${{ join(on.rss.outputs.category, ' #') }}
+            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }}
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIL_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIL_TWITTER_CONSUMER_SECRET }}
