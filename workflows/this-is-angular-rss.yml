@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Tweet about article
-        uses: ./actions/tweet-article
+        uses: this-is-learning/twitter-feed/actions/tweet-article@refactor/refactor-tweet-workflows
         with:
           rss-author: ${{ on.rss.outputs.author }}
           rss-categories: ${{ on.rss.outputs.categories }}
