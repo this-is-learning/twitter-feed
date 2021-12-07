@@ -1,31 +1,22 @@
 on:
   rss:
-    url: https://dev.to/feed/this-is-angular
+    url: https://dev.to/feed/this-is-learning
+
+concurrency: this-is-angular-rss
 
 jobs:
-  Tweet:
-    name: Tweet
+  tweet:
+    name: Tweet article
     runs-on: ubuntu-latest
     steps:
-      - name: categories to tags
-        uses: actions/github-script@v4
-        id: categories-to-tag
-        env:
-          categories: ${{ on.rss.outputs.categories }}
+      - name: Tweet about article
+        uses: ./actions/tweet-article
         with:
-          script: |
-            if(!process.env?.categories) {
-              return "";
-            }
-            return process.env.categories.split(",").map(t => `#${t}`).join(" ");
-          result-encoding: string
-      - name: Post To This is Angular
-        uses: ethomson/send-tweet-action@v1
-        with:
-          status: |            
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} ${{steps.categories-to-tag.outputs.result}}
-            ${{ on.rss.outputs.link }}
-          consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
-          consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
-          access-token: ${{ secrets.TIA_TWITTER_ACCESS_TOKEN }}
-          access-token-secret: ${{ secrets.TIA_TWITTER_ACCESS_SECRET }}
+          rss-author: ${{ on.rss.outputs.author }}
+          rss-categories: ${{ on.rss.outputs.categories }}
+          rss-link: ${{ on.rss.outputs.link }}
+          rss-title: ${{ on.rss.outputs.title }}
+          twitter-authentication-access-token: ${{ secrets.TIA_TWITTER_ACCESS_TOKEN }}
+          twitter-authentication-access-token-secret: ${{ secrets.TIA_TWITTER_ACCESS_SECRET }}
+          twitter-consumer-api-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
+          twitter-consumer-api-key-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
