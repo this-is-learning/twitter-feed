@@ -1,7 +1,8 @@
 name: Actionsflow
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    # schedule at minute 20 every other hour
+    - cron: "20 */2 * * *"
   push:
     branches:
       - main
@@ -9,17 +10,17 @@ on:
   workflow_dispatch:
     inputs:
       include:
-        description: '--include: workflow file filter, you can use glob format to filter your workflows, the default value is empty value, means no filter will be using'
+        description: "--include: workflow file filter, you can use glob format to filter your workflows, the default value is empty value, means no filter will be using"
         required: false
-        default: ''
+        default: ""
       force:
-        description: '--force: whether force to run workflow, true or false'
+        description: "--force: whether force to run workflow, true or false"
         required: false
-        default: 'false'
+        default: "false"
       verbose:
-        description: '--verbose: debug workflow, true or false'
+        description: "--verbose: debug workflow, true or false"
         required: false
-        default: 'false'
+        default: "false"
 jobs:
   run:
     runs-on: ubuntu-latest
