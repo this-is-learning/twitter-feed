@@ -1,0 +1,54 @@
+name: Tweet article
+
+inputs:
+  rss-author:
+    description: The article author
+    required: true
+  rss-categories:
+    description: The article categories
+    required: true
+  rss-link:
+    description: The article link
+    required: true
+  rss-title:
+    description: The article title
+    required: true
+  twitter-authentication-access-token:
+    description: The Twitter authentication access token
+    required: true
+  twitter-authentication-access-token-secret:
+    description: The Twitter authentication access token secret
+    required: true
+  twitter-consumer-api-key:
+    description: The Twitter consumer API key
+    required: true
+  twitter-consumer-api-key-secret:
+    description: The Twitter consumer API key secret
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Map RSS categories to hashtags
+      uses: actions/github-script@v5
+      id: categories-to-tags
+      env:
+        categories: ${{ on.rss.outputs.categories }}
+      with:
+        script: |
+          return (process.env?.categories ?? [])
+            .split(',')
+            .map(tag => `#${tag}`)
+            .join(' ');
+        result-encoding: string
+    - name: Tweet about article
+      uses: ethomson/send-tweet-action@v1
+      with:
+        status: |
+          "${{ inputs.rss-title }}" by ${{ inputs.rss-author }} ${{ steps.categories-to-tags.outputs.result }}
+          ${{ inputs.rss-link }}
+        consumer-key: ${{ inputs.twitter-consumer-api-key }}
+        consumer-secret: ${{ inputs.twitter-consumer-api-key-secret }}
+        access-token: ${{ inputs.twitter-authentication-access-token }}
+        access-token-secret: ${{ inputs.twitter-authentication-access-token-secret }}
