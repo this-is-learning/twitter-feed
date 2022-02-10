@@ -23,7 +23,7 @@ jobs:
         uses: ethomson/send-tweet-action@v1
         with:
           status: |            
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} ${{steps.categories-to-tag.outputs.result}}
+            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} ${{steps.categories-to-tag.outputs.result}} ${{ secrets.TIL_HASHTAG }}
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
