@@ -12,12 +12,14 @@ jobs:
         id: categories-to-tag
         env:
           categories: ${{ on.rss.outputs.categories }}
+          TIL_HASHTAG: ${{ secrets.TIL_HASHTAG }}
         with:
           script: |
             if(!process.env?.categories) {
-              return "";
+              return `${process.env.TIL_HASHTAG}`;
             }
-            return process.env.categories.split(",").map(t => `#${t}`).join(" ");
+            const categoriesHashTag = process.env.categories.split(",").map(t => `#${t}`).join(" ");
+            return `${categoriesHashTag} ${process.env.TIL_HASHTAG}`;
           result-encoding: string 
       - name: Post to This is Learning
         uses: ethomson/send-tweet-action@v1
