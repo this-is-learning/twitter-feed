@@ -12,20 +12,19 @@ jobs:
         id: categories-to-tag
         env:
           categories: ${{ on.rss.outputs.categories }}
-          TIA_HASHTAG: ${{ secrets.TIA_HASHTAG }}
         with:
           script: |
             if(!process.env?.categories) {
-              return `${process.env.TIA_HASHTAG}`;
+              return "";
             }
             const categoriesHashTags = process.env.categories.split(",").map(t => `#${t}`).join(" ");
-            return `${categoriesHashTags} ${process.env.TIA_HASHTAG}`;
+            return `${categoriesHashTags}`;
           result-encoding: string
       - name: Post To This is Angular
         uses: ethomson/send-tweet-action@v1
         with:
           status: |            
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} ${{steps.categories-to-tag.outputs.result}}
+            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author["dc:creator"] }} ${{steps.categories-to-tag.outputs.result}} #ThisIsAngular
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
