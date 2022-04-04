@@ -12,20 +12,19 @@ jobs:
         id: categories-to-tag
         env:
           categories: ${{ on.rss.outputs.categories }}
-          TIL_HASHTAG: ${{ secrets.TIL_HASHTAG }}
         with:
           script: |
             if(!process.env?.categories) {
-              return `${process.env.TIL_HASHTAG}`;
+              return ``;
             }
             const categoriesHashTag = process.env.categories.split(",").map(t => `#${t}`).join(" ");
-            return `${categoriesHashTag} ${process.env.TIL_HASHTAG}`;
+            return `${categoriesHashTag}`;
           result-encoding: string 
       - name: Post to This is Learning
         uses: ethomson/send-tweet-action@v1
         with:
           status: |
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author }} ${{steps.categories-to-tag.outputs.result}} ${{ secrets.TIA_HASHTAG }}
+            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs["dc:creator"] }} ${{steps.categories-to-tag.outputs.result}} #ThisIsLearning
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIL_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIL_TWITTER_CONSUMER_SECRET }}
