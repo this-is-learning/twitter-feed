@@ -20,11 +20,11 @@ jobs:
             const categoriesHashTags = process.env.categories.split(",").map(t => `#${t}`).join(" ");
             return `${categoriesHashTags}`;
           result-encoding: string
-      - name: Post To This is Angular
+      - name: Post to This is Angular
         uses: ethomson/send-tweet-action@v1
         with:
-          status: |            
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs.author["dc:creator"] }} ${{steps.categories-to-tag.outputs.result}} #ThisIsAngular
+          status: |
+            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs["dc:creator"] }} ${{steps.categories-to-tag.outputs.result}} #ThisIsAngular
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
