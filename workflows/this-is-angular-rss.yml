@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: categories to tags
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         id: categories-to-tag
         env:
           categories: ${{ on.rss.outputs.categories }}
