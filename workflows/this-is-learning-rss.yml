@@ -15,11 +15,11 @@ jobs:
         with:
           script: |
             if(!process.env?.categories) {
-              return ``;
+              return "";
             }
-            const categoriesHashTag = process.env.categories.split(",").map(t => `#${t}`).join(" ");
-            return `${categoriesHashTag}`;
-          result-encoding: string 
+            const categoriesHashTags = process.env.categories.split(",").map(t => `#${t}`).join(" ");
+            return `${categoriesHashTags}`;
+          result-encoding: string
       - name: Post to This is Learning
         uses: ethomson/send-tweet-action@v1
         with:
