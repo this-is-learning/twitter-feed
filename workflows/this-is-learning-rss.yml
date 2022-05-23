@@ -45,11 +45,22 @@ jobs:
             const response = JSON.parse(process.env.response);
 
             return response.user.twitter_username;
+      - name: Author name from RSS
+        id: author_name
+        uses: actions/github-script@v6
+        env:
+          rss: ${{ on.rss.outputs }}
+        with:
+          result-encoding: string
+          script: |
+            const rss = JSON.parse(process.env.rss);
+
+            return rss["dc:creator"];
       - name: Author
         uses: actions/github-script@v6
         id: author
         env:
-          author_name: ${{ on.rss.outputs["dc:creator"] }}
+          author_name: ${{ steps.author_name.outputs.result }}
           twitter_username: ${{ steps.twitter_username.outputs.result }}
         with:
           result-encoding: string
