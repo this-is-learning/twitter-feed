@@ -11,7 +11,7 @@ jobs:
         uses: actions/github-script@v6
         id: hashtags
         env:
-          categories: ${{ on.rss.outputs.categories }}
+          categories: ${{ toJSON(on.rss.outputs.categories) }}
         with:
           result-encoding: string
           script: |
