@@ -20,11 +20,50 @@ jobs:
             const categoriesHashTags = process.env.categories.split(",").map(t => `#${t}`).join(" ");
             return `${categoriesHashTags}`;
           result-encoding: string
+      - name: Article endpoint
+        id: article_endpoint
+        env:
+          article_url: ${{ on.rss.outputs.link }}
+        uses: actions/github-script@v6
+        with:
+          result-encoding: string
+          script: |
+            return process.env.article_url.replace(/^https:\/\/dev\.to\//, "https://dev.to/api/articles/");
+      - name: Article metadata
+        id: article_metadata
+        uses: actionsflow/axios@v1
+        with:
+          url: ${{ steps.article_endpoint.outputs.result }}
+      - name: Twitter username
+        uses: actions/github-script@v6
+        id: twitter_username
+        env:
+          response: ${{ steps.article_metadata.outputs.data }}
+        with:
+          result-encoding: string
+          script: |
+            const response = JSON.parse(process.env.response);
+
+            return response.user.twitter_username;
+      - name: Author
+        uses: actions/github-script@v6
+        id: author
+        env:
+          author_name: ${{ on.rss.outputs["dc:creator"] }}
+          twitter_username: ${{ steps.twitter_username.outputs.result }}
+        with:
+          result-encoding: string
+          script: |
+            const { author_name: authorName, twitter_username: twitterUsername } = process.env;
+
+            return twitterUsername ? `@${twitterUsername}` : authorName;
       - name: Post to This is Angular
         uses: ethomson/send-tweet-action@v1
+        env:
+          author: ${{ steps.author.outputs.result}}
         with:
           status: |
-            "${{ on.rss.outputs.title }}" by ${{ on.rss.outputs["dc:creator"] }} ${{steps.categories-to-tag.outputs.result}} #ThisIsAngular
+            "${{ on.rss.outputs.title }}" by ${{ env.author }} ${{steps.categories-to-tag.outputs.result}} #ThisIsAngular
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
