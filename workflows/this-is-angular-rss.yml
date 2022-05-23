@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: categories to tags
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         id: categories-to-tag
         env:
           categories: ${{ on.rss.outputs.categories }}
@@ -24,7 +24,7 @@ jobs:
         id: article_endpoint
         env:
           article_url: ${{ on.rss.outputs.link }}
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           result-encoding: string
           script: |
@@ -35,7 +35,7 @@ jobs:
         with:
           url: ${{ steps.article_endpoint.outputs.result }}
       - name: Twitter username
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         id: twitter_username
         env:
           response: ${{ steps.article_metadata.outputs.data }}
@@ -46,7 +46,7 @@ jobs:
 
             return response.user.twitter_username;
       - name: Author
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         id: author
         env:
           author_name: ${{ on.rss.outputs["dc:creator"] }}
