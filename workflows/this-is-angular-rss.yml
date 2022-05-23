@@ -49,7 +49,7 @@ jobs:
         id: author_name
         uses: actions/github-script@v6
         env:
-          rss: ${{ on.rss.outputs }}
+          rss: ${{ toJSON(on.rss.outputs) }}
         with:
           result-encoding: string
           script: |
