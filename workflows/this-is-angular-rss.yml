@@ -15,7 +15,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const categories = process.env.categories || [];
+            const categories = JSON.parse(process.env.categories) || [];
 
             return categories.map(category => "#" + category).join(" ");
       - name: Article endpoint
