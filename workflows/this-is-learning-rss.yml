@@ -42,7 +42,9 @@ jobs:
         with:
           result-encoding: string
           script: |
-            return process.env.response.user.twitter_username;
+            const response = JSON.parse(process.env.response);
+
+            return response.user.twitter_username;
       - name: Author
         uses: actions/github-script@v6
         id: author
