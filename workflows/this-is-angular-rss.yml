@@ -7,19 +7,17 @@ jobs:
     name: Tweet
     runs-on: ubuntu-latest
     steps:
-      - name: categories to tags
+      - name: RSS categories to hashtags
         uses: actions/github-script@v6
-        id: categories-to-tag
+        id: hashtags
         env:
           categories: ${{ on.rss.outputs.categories }}
         with:
-          script: |
-            if(!process.env?.categories) {
-              return "";
-            }
-            const categoriesHashTags = process.env.categories.split(",").map(t => `#${t}`).join(" ");
-            return `${categoriesHashTags}`;
           result-encoding: string
+          script: |
+            const categories = process.env.categories || [];
+
+            return categories.map(category => "#" + category).join(" ");
       - name: Article endpoint
         id: article_endpoint
         env:
@@ -71,10 +69,11 @@ jobs:
       - name: Post to This is Angular
         uses: ethomson/send-tweet-action@v1
         env:
-          author: ${{ steps.author.outputs.result}}
+          author: ${{ steps.author.outputs.result }}
+          hashtags: ${{ steps.hashtags.outputs.result }}
         with:
           status: |
-            "${{ on.rss.outputs.title }}" by ${{ env.author }} ${{steps.categories-to-tag.outputs.result}} #ThisIsAngular
+            "${{ on.rss.outputs.title }}" by ${{ env.author }} ${{ env.hashtags }} #ThisIsAngular
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIA_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIA_TWITTER_CONSUMER_SECRET }}
