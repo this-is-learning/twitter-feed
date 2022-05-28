@@ -64,6 +64,7 @@ jobs:
           result-encoding: string
           script: |
             const { author_name: authorName, twitter_username: twitterUsername } = process.env;
+            twitterUsername = twitterUsername === "null" ? null : twitterUserName;
 
             return twitterUsername ? `@${twitterUsername}` : authorName;
       - name: Post to This is Angular
