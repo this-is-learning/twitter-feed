@@ -67,14 +67,11 @@ jobs:
             twitterUsername = twitterUsername === "null" ? null : twitterUserName;
 
             return twitterUsername ? `@${twitterUsername}` : authorName;
-      - name: Post to This is Learning
+      - name: Tweet through This is Learning
         uses: ethomson/send-tweet-action@v1
-        env:
-          author: ${{ steps.author.outputs.result }}
-          hashtags: ${{ steps.hashtags.outputs.result }}
         with:
           status: |
-            "${{ on.rss.outputs.title }}" by ${{ env.author }} ${{ env.hashtags }} #ThisIsLearning
+            "${{ on.rss.outputs.title }}" by ${{ steps.author.outputs.result }} ${{ steps.hashtags.outputs.result }} #ThisIsLearning
             ${{ on.rss.outputs.link }}
           consumer-key: ${{ secrets.TIL_TWITTER_CONSUMER_KEY }}
           consumer-secret: ${{ secrets.TIL_TWITTER_CONSUMER_SECRET }}
