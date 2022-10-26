@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: RSS categories to hashtags
-        uses: actions/github-script@v6.3.2
+        uses: actions/github-script@v6.3.1
         id: hashtags
         env:
           categories: ${{ toJSON(on.rss.outputs.categories) }}
@@ -22,7 +22,7 @@ jobs:
         id: article_endpoint
         env:
           article_url: ${{ on.rss.outputs.link }}
-        uses: actions/github-script@v6.3.2
+        uses: actions/github-script@v6.3.1
         with:
           result-encoding: string
           script: |
@@ -33,7 +33,7 @@ jobs:
         with:
           url: ${{ steps.article_endpoint.outputs.result }}
       - name: Twitter username
-        uses: actions/github-script@v6.3.2
+        uses: actions/github-script@v6.3.1
         id: twitter_username
         env:
           response: ${{ steps.article_metadata.outputs.data }}
@@ -45,7 +45,7 @@ jobs:
             return response.user.twitter_username;
       - name: Author name from RSS
         id: author_name
-        uses: actions/github-script@v6.3.2
+        uses: actions/github-script@v6.3.1
         env:
           rss: ${{ toJSON(on.rss.outputs) }}
         with:
@@ -55,7 +55,7 @@ jobs:
 
             return rss["dc:creator"];
       - name: Author
-        uses: actions/github-script@v6.3.2
+        uses: actions/github-script@v6.3.1
         id: author
         env:
           author_name: ${{ steps.author_name.outputs.result }}
