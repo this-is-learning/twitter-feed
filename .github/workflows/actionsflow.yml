@@ -27,7 +27,7 @@ jobs:
     name: Run
     concurrency: actionsflow
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run Actionsflow
         uses: actionsflow/actionsflow-action@v1
         with:
